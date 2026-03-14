@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Refund Policy — OwnThatDomain</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #e8e0d0;
+      --ink2: #c8bfb0;
+      --ink3: #8a9aaa;
+      --ink4: #556070;
+      --paper: #080f1a;
+      --paper2: #0d1825;
+      --paper3: #121e2e;
+      --amber: #c8922a;
+      --amber2: #e8b84b;
+      --teal: #2ab8b0;
+      --border: #1e3048;
+      --border2: #2a4060;
+      --gold: #d4a030;
+    }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'IBM Plex Sans', sans-serif;
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(42,184,176,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 100%, rgba(200,146,42,0.06) 0%, transparent 60%);
+    }
+    header {
+      background: rgba(6,12,22,0.95);
+      border-bottom: 1px solid var(--border2);
+      padding: 14px 24px;
+      backdrop-filter: blur(8px);
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      background: linear-gradient(135deg, var(--amber2), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+    .back {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--teal);
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+    .back:hover { opacity: 0.75; }
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+      position: relative; z-index: 1;
+    }
+    .page-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 32px;
+      color: var(--amber2);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .meta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--ink4);
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    h2 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-top: 36px;
+      margin-bottom: 12px;
+    }
+    p {
+      font-size: 14px;
+      color: var(--ink2);
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+    ul {
+      margin: 0 0 12px 0;
+      padding-left: 0;
+      list-style: none;
+    }
+    ul li {
+      font-size: 14px;
+      color: var(--ink2);
+      line-height: 1.8;
+      padding-left: 20px;
+      position: relative;
+      margin-bottom: 6px;
+    }
+    ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--teal);
+      font-size: 12px;
+    }
+    .section {
+      border-left: 2px solid var(--border2);
+      padding-left: 20px;
+      margin-bottom: 32px;
+    }
+    .section:hover {
+      border-left-color: var(--amber);
+      transition: border-color 0.2s;
+    }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(6,12,22,0.6);
+      flex-wrap: wrap;
+      gap: 10px;
+      position: relative; z-index: 1;
+    }
+    footer p {
+      font-size: 11px;
+      color: var(--ink4);
+      margin: 0;
+      line-height: 1.6;
+    }
+    footer a {
+      font-size: 11px;
+      color: var(--ink4);
+      text-decoration: none;
+      margin-left: 16px;
+    }
+    footer a:hover { color: var(--teal); }
+    a { color: var(--teal); }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/" class="logo">Own That Domain</a>
+    <a href="/" class="back">← Back to app</a>
+  </header>
+
+  <main>
+    <div class="page-label">Legal</div>
+    <h1>Refund Policy</h1>
+    <p class="meta">Last updated: March 2026 &nbsp;·&nbsp; ownthatdomain.com</p>
+
+    <div class="section">
+      <h2>Our Commitment</h2>
+      <p>OwnThatDomain is committed to providing a fair and transparent purchasing experience. This Refund Policy explains your rights and our obligations in relation to the one-time payment of £9 that unlocks Stages 4 and 5 of the domain negotiation workflow.</p>
+    </div>
+
+    <div class="section">
+      <h2>What You Are Purchasing</h2>
+      <p>The £9 payment provides immediate digital access to Stages 4 and 5 of the OwnThatDomain workflow. This is a one-time payment for digital content that is delivered instantly upon purchase confirmation. No physical goods are involved and no ongoing subscription is created.</p>
+    </div>
+
+    <div class="section">
+      <h2>Refund Eligibility</h2>
+      <p>Because the paid content is delivered immediately and digitally upon purchase, we are generally unable to offer refunds once access has been granted. However, we will consider refund requests in the following circumstances:</p>
+      <ul>
+        <li>You were charged but access to Stages 4 and 5 was not granted due to a technical fault</li>
+        <li>You were charged more than once for the same purchase</li>
+        <li>Your request is submitted within 14 days of the original purchase date</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>How to Request a Refund</h2>
+      <p>To request a refund, please email <a href="mailto:hello@mitchellsolutions.org">hello@mitchellsolutions.org</a> with the subject line: <strong style="color: var(--ink);">OwnThatDomain Refund Request</strong>. Please include your name, the email address used at checkout, and a brief description of the issue. We aim to respond to all refund requests within 3 business days.</p>
+    </div>
+
+    <div class="section">
+      <h2>Processing</h2>
+      <p>Approved refunds will be processed via Lemon Squeezy, our payment provider, back to the original payment method. Processing times are typically 5 to 10 business days depending on your bank or card provider.</p>
+    </div>
+
+    <div class="section">
+      <h2>Consumer Rights</h2>
+      <p>If you are based in the United Kingdom or European Union, you may have statutory rights under consumer protection legislation, including rights relating to digital content. Nothing in this Refund Policy limits or excludes those statutory rights.</p>
+    </div>
+
+    <div class="section">
+      <h2>Contact</h2>
+      <p>For any questions about this Refund Policy, please contact us at <a href="mailto:hello@mitchellsolutions.org">hello@mitchellsolutions.org</a>.</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>OwnThatDomain &nbsp;·&nbsp; MitchellSolutions &nbsp;·&nbsp; hello@mitchellsolutions.org</p>
+    <div>
+      <a href="/terms.html">Terms of Service</a>
+      <a href="/refund-policy.html">Refund Policy</a>
+    </div>
+  </footer>
+</body>
+</html>
