@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 // ── STYLES ────────────────────────────────────────────────────────────────────
 const CSS = `
@@ -74,6 +74,9 @@ Respond in valid compact JSON only. No markdown, no preamble.`,
   catch { return { error: true }; }
 }
 
+// ── LEMON SQUEEZY CHECKOUT URL ────────────────────────────────────────────────
+const CHECKOUT_URL = "https://ownthatdomain.lemonsqueezy.com/checkout/buy/fe2502c5-cd2c-499d-b473-f6bb3496125d";
+
 // ── STAGES ────────────────────────────────────────────────────────────────────
 const STAGES = [
   { id: "setup",    label: "01  Situation",   short: "Setup"     },
@@ -94,8 +97,6 @@ function Label({ children, sub }) {
     </div>
   );
 }
-
-function var_(name) { return `var(--${name})`; }
 
 function Card({ children, style, amber }) {
   return (
@@ -151,7 +152,7 @@ function LockedBadge() {
     <div style={{ display: "inline-flex", alignItems: "center", gap: 6,
       background: "linear-gradient(135deg, var(--amber), var(--amber2))", color: "#0d1825", borderRadius: 4,
       padding: "3px 10px", fontSize: 11, fontWeight: 500, letterSpacing: "0.5px" }}>
-      ⚡ Unlock for $9
+      ⚡ Unlock for £9
     </div>
   );
 }
@@ -542,7 +543,7 @@ JSON: {
   );
 }
 
-// ── STAGE 4: COUNTER OFFER (LOCKED IN DEMO) ───────────────────────────────────
+// ── STAGE 4: COUNTER OFFER ────────────────────────────────────────────────────
 function CounterStage({ setup, valuation, onNext, unlocked }) {
   const [response, setResponse] = useState("");
   const [counterAmount, setCounterAmount] = useState("");
@@ -594,11 +595,16 @@ JSON: {
             Counter-offer scripts, walk-away analysis, and close/escrow guidance for this negotiation — one-off, no subscription.
           </p>
           <div style={{ display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" }}>
-            <div style={{ background: "var(--ink)", color: "var(--paper)",
-              borderRadius: 5, padding: "12px 28px", fontSize: 16,
-              fontFamily: "'Cinzel', serif" }}>
-              $9 — Unlock this negotiation
-            </div>
+            <button
+              onClick={() => window.location.href = CHECKOUT_URL}
+              style={{
+                background: "linear-gradient(135deg, var(--amber), var(--amber2))",
+                color: "#0d1825", border: "none", borderRadius: 5,
+                padding: "12px 28px", fontSize: 16, fontFamily: "'Cinzel', serif",
+                cursor: "pointer", fontWeight: 600,
+              }}>
+              £9 — Unlock this negotiation
+            </button>
           </div>
           <p style={{ fontSize: 11, color: "var(--ink4)", marginTop: 14 }}>
             One payment covers counter-offer handling + close/walk-away guidance for {setup.domain}
@@ -659,7 +665,7 @@ JSON: {
               color: "var(--ink3)", marginBottom: 8 }}>Seller Signal</div>
             <p style={{ fontSize: 13, color: "var(--ink2)", lineHeight: 1.65 }}>{data.seller_signal}</p>
             {data.psychology_note && (
-              <p style={{ fontSize: 12, color: "var(--amber)", marginTop: 10,
+              <p style={{ fontSize: 12, marginTop: 10,
                 borderTop: `1px solid ${"var(--border)"}`, paddingTop: 10,
                 fontStyle: "italic", color: "var(--teal)" }}>{data.psychology_note}</p>
             )}
@@ -738,8 +744,20 @@ JSON: {
         <div style={{ fontFamily: "'Cinzel', serif", fontSize: 20,
           color: "var(--ink)", marginBottom: 10 }}>Close & Transfer Guidance</div>
         <p style={{ fontSize: 13, color: "var(--ink3)", lineHeight: 1.6 }}>
-          Unlock the full workflow for $9 to access closing and walk-away guidance.
+          Unlock the full workflow for £9 to access closing and walk-away guidance.
         </p>
+        <div style={{ marginTop: 20 }}>
+          <button
+            onClick={() => window.location.href = CHECKOUT_URL}
+            style={{
+              background: "linear-gradient(135deg, var(--amber), var(--amber2))",
+              color: "#0d1825", border: "none", borderRadius: 5,
+              padding: "12px 28px", fontSize: 16, fontFamily: "'Cinzel', serif",
+              cursor: "pointer", fontWeight: 600,
+            }}>
+            £9 — Unlock this negotiation
+          </button>
+        </div>
       </div>
     );
   }
@@ -833,7 +851,30 @@ export default function App() {
   const [stage, setStage] = useState("setup");
   const [setup, setSetup] = useState(null);
   const [valuation, setValuation] = useState(null);
-  const [unlocked] = useState(false); // set to true to demo full flow
+  const [unlocked, setUnlocked] = useState(false);
+
+  // Check for order_id in URL on load — verifies payment token
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const orderId = params.get("order");
+    if (orderId) {
+      fetch(`/.netlify/functions/verify-token?order=${orderId}`)
+        .then(r => r.json())
+        .then(d => {
+          if (d.valid) {
+            setUnlocked(true);
+            sessionStorage.setItem("unlocked", "true");
+            // Remove order param from URL cleanly
+            window.history.replaceState({}, "", window.location.pathname);
+          }
+        })
+        .catch(() => {});
+    }
+    // Also restore from sessionStorage if already unlocked this session
+    if (sessionStorage.getItem("unlocked") === "true") {
+      setUnlocked(true);
+    }
+  }, []);
 
   const goTo = id => {
     setStage(id);
@@ -892,13 +933,17 @@ export default function App() {
 
       {/* FOOTER */}
       <div style={{ borderTop: "1px solid var(--border)", padding: "16px 24px",
-        display: "flex", justifyContent: "center", background: "rgba(6,12,22,0.6)" }}>
-        <p style={{ fontSize: 11, color: "var(--ink4)", textAlign: "center",
-          maxWidth: 480, lineHeight: 1.7 }}>
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+        background: "rgba(6,12,22,0.6)", flexWrap: "wrap", gap: 10 }}>
+        <p style={{ fontSize: 11, color: "var(--ink4)", maxWidth: 480, lineHeight: 1.7 }}>
           All valuations are AI estimates — not verified market data.
           Verify comparable sales on NameBio before making purchase decisions.
           Nothing in this tool constitutes financial or legal advice.
         </p>
+        <div style={{ display: "flex", gap: 16 }}>
+          <a href="/terms" style={{ fontSize: 11, color: "var(--ink4)", textDecoration: "none" }}>Terms of Service</a>
+          <a href="/refund-policy" style={{ fontSize: 11, color: "var(--ink4)", textDecoration: "none" }}>Refund Policy</a>
+        </div>
       </div>
     </div>
   );
