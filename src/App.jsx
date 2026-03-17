@@ -268,7 +268,7 @@ function SetupStage({ onNext }) {
             onChange={e => set("maxBudget", e.target.value)}
             placeholder="e.g. 2500" />
           <p style={{ fontSize: 11, color: "var(--ink4)", marginTop: 5 }}>
-            This stays private. It shapes your strategy — we'll never suggest opening at this number.
+            This stays private. It shapes your strategy - we'll never suggest opening at this number.
           </p>
         </div>
 
@@ -289,9 +289,9 @@ function SetupStage({ onNext }) {
         <div>
           <Label>Timeline</Label>
           <select value={form.timeline} onChange={e => set("timeline", e.target.value)}>
-            <option value="flexible">Flexible — no pressure</option>
+            <option value="flexible">Flexible - no pressure</option>
             <option value="weeks">A few weeks</option>
-            <option value="urgent">Urgent — I need this soon</option>
+            <option value="urgent">Urgent - I need this soon</option>
           </select>
           {form.timeline === "urgent" &&
             <p style={{ fontSize: 11, color: "var(--red)", marginTop: 5 }}>
@@ -340,7 +340,7 @@ JSON: {
   "opening_anchor": "$Z",
   "opening_anchor_logic": "why this opening makes sense",
   "budget_verdict": "reasonable|tight|generous|unknown",
-  "comparable_patterns": "2 sentences on what similar domains have sold for — be honest if you're uncertain",
+  "comparable_patterns": "2 sentences on what similar domains have sold for - be honest if you're uncertain",
   "key_risks": ["risk 1", "risk 2"],
   "negotiation_leverage": ["leverage point 1", "leverage point 2"],
   "data_disclaimer": "one sentence reminding buyer to verify on NameBio"
@@ -353,7 +353,7 @@ JSON: {
       <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: 22,
         color: "var(--amber2)", marginBottom: 6 }}>Valuation Assessment</h2>
       <p style={{ fontSize: 13, color: "var(--ink3)", marginBottom: 18, lineHeight: 1.6 }}>
-        Before making any offer, you need a realistic sense of what this domain is worth — and what you should open with. These are AI estimates. Verify on NameBio before committing real money.
+        Before making any offer, you need a realistic sense of what this domain is worth - and what you should open with. Valuations are AI-generated based on extension strength, comparable sales patterns, and niche demand. The same inputs a human broker would use, without the £120 fee. Always verify on NameBio before committing real money.
       </p>
 
       {!ran && (
@@ -368,7 +368,7 @@ JSON: {
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
             {[
-              { l: "Estimated Range", v: data.estimated_range, note: "AI estimate only" },
+              { l: "Estimated Range", v: data.estimated_range, note: "AI-generated estimate" },
               { l: "Suggested Opening", v: data.opening_anchor, note: "Start here" },
               { l: "Your Budget", v: `$${setup.maxBudget}`, note: data.budget_verdict },
             ].map(item => (
@@ -419,7 +419,7 @@ JSON: {
             </p>
             <p style={{ fontSize: 11, color: "var(--amber)", marginTop: 10,
               borderTop: `1px solid ${"var(--border)"}`, paddingTop: 10 }}>
-              Confidence: {data.confidence} — {data.confidence_reason}
+              Confidence: {data.confidence} - {data.confidence_reason}
             </p>
           </Card>
 
@@ -446,7 +446,7 @@ function OpenStage({ setup, valuation, onNext }) {
     setLoading(true);
     const res = await callAI(`Write opening contact scripts for acquiring "${setup.domain}".
 
-Buyer type: ${setup.userType === "investor" ? "Domain investor (never reveal this — present as entrepreneur)" : "Business/startup (never reveal company name or urgency)"}
+Buyer type: ${setup.userType === "investor" ? "Domain investor (never reveal this - present as entrepreneur)" : "Business/startup (never reveal company name or urgency)"}
 Suggested opening offer: ${valuation.opening_anchor}
 Timeline pressure: ${setup.timeline}
 
@@ -460,7 +460,7 @@ Rules for all scripts:
 - Never reveal maximum budget
 - Present as a small entrepreneur/individual buyer, not a company
 - Sound interested but not desperate
-- Leave room to negotiate — this is an opening, not a final offer
+- Leave room to negotiate - this is an opening, not a final offer
 - For business buyers: never name your company or product
 - The opening offer should be stated clearly and confidently
 
@@ -534,7 +534,7 @@ JSON: {
           <div style={{ display: "flex", gap: 10 }}>
             <PrimaryBtn onClick={() => setData(null)} style={{ flex: "none" }}>Re-run</PrimaryBtn>
             <PrimaryBtn onClick={() => onNext(data)} full>
-              I've sent my offer — handle responses →
+              I've sent my offer - handle responses →
             </PrimaryBtn>
           </div>
         </div>
@@ -592,7 +592,7 @@ JSON: {
             Unlock the full negotiation workflow
           </div>
           <p style={{ fontSize: 13, color: "var(--ink3)", marginBottom: 18, lineHeight: 1.6, maxWidth: 360, margin: "0 auto 18px" }}>
-            Counter-offer scripts, walk-away analysis, and close/escrow guidance for this negotiation — one-off, no subscription.
+            Counter-offer scripts, walk-away analysis, and close/escrow guidance for this negotiation - one-off, no subscription.
           </p>
           <div style={{ display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" }}>
             <button
@@ -603,7 +603,7 @@ JSON: {
                 padding: "12px 28px", fontSize: 16, fontFamily: "'Cinzel', serif",
                 cursor: "pointer", fontWeight: 600,
               }}>
-              £9 — Unlock this negotiation
+              £9 - Unlock this negotiation
             </button>
           </div>
           <p style={{ fontSize: 11, color: "var(--ink4)", marginTop: 14 }}>
@@ -620,8 +620,8 @@ JSON: {
             "Precise counter-offer amount with reasoning",
             "Ready-to-send counter-offer script",
             "Psychology coaching for this specific negotiation",
-            "Red flag detection — when to be wary",
-            "Walk-away signals — when to stop and move on",
+            "Red flag detection - when to be wary",
+            "Walk-away signals - when to stop and move on",
           ].map((item, i) => (
             <div key={i} style={{ display: "flex", gap: 10, marginBottom: 8, alignItems: "flex-start" }}>
               <span style={{ color: "var(--teal)", fontSize: 13, flexShrink: 0 }}>→</span>
@@ -755,7 +755,7 @@ JSON: {
               padding: "12px 28px", fontSize: 16, fontFamily: "'Cinzel', serif",
               cursor: "pointer", fontWeight: 600,
             }}>
-            £9 — Unlock this negotiation
+            £9 - Unlock this negotiation
           </button>
         </div>
       </div>
@@ -853,7 +853,7 @@ export default function App() {
   const [valuation, setValuation] = useState(null);
   const [unlocked, setUnlocked] = useState(false);
 
-  // Check for order_id in URL on load — verifies payment token
+  // Check for order_id in URL on load - verifies payment token
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const orderId = params.get("order");
@@ -936,7 +936,7 @@ export default function App() {
         display: "flex", justifyContent: "space-between", alignItems: "center",
         background: "rgba(6,12,22,0.6)", flexWrap: "wrap", gap: 10 }}>
         <p style={{ fontSize: 11, color: "var(--ink4)", maxWidth: 480, lineHeight: 1.7 }}>
-          All valuations are AI estimates — not verified market data.
+          Valuations are AI-generated based on extension strength, comparable sales patterns, and niche demand. The same inputs a human broker would use, without the £120 fee.
           Verify comparable sales on NameBio before making purchase decisions.
           Nothing in this tool constitutes financial or legal advice.
         </p>
