@@ -79,11 +79,11 @@ const CHECKOUT_URL = "https://ownthatdomain.lemonsqueezy.com/checkout/buy/fe2502
 
 // ── STAGES ────────────────────────────────────────────────────────────────────
 const STAGES = [
-  { id: "setup",    label: "01  Situation",   short: "Setup"     },
-  { id: "value",    label: "02  Valuation",   short: "Value"     },
-  { id: "open",     label: "03  First Offer", short: "Open"      },
-  { id: "counter",  label: "04  Counter",     short: "Counter", locked: true },
-  { id: "close",    label: "05  Close / Walk", short: "Close",  locked: true },
+  { id: "setup",   label: "01  Context",       short: "Context"  },
+  { id: "value",   label: "02  Your Position", short: "Position" },
+  { id: "open",    label: "03  First Move",    short: "First Move" },
+  { id: "counter", label: "04  Seller Reply",  short: "Reply",   locked: true },
+  { id: "close",   label: "05  Final Decision",short: "Decision",locked: true },
 ];
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
@@ -152,7 +152,7 @@ function LockedBadge() {
     <div style={{ display: "inline-flex", alignItems: "center", gap: 6,
       background: "linear-gradient(135deg, var(--amber), var(--amber2))", color: "#0d1825", borderRadius: 4,
       padding: "3px 10px", fontSize: 11, fontWeight: 500, letterSpacing: "0.5px" }}>
-      ⚡ Unlock for £9
+      ⚡ Unlock for £15
     </div>
   );
 }
@@ -219,7 +219,7 @@ function Progress({ current, unlocked }) {
   );
 }
 
-// ── STAGE 1: SETUP ────────────────────────────────────────────────────────────
+// ── STAGE 1: CONTEXT ──────────────────────────────────────────────────────────
 function SetupStage({ onNext }) {
   const [form, setForm] = useState({
     domain: "", userType: "", maxBudget: "", reason: "", timeline: "flexible",
@@ -230,9 +230,9 @@ function SetupStage({ onNext }) {
   return (
     <div className="appear">
       <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: 22,
-        color: "var(--amber2)", marginBottom: 6 }}>Tell me about your situation</h2>
+        color: "var(--amber2)", marginBottom: 6 }}>Understand your position</h2>
       <p style={{ fontSize: 13, color: "var(--ink3)", marginBottom: 22, lineHeight: 1.6 }}>
-        The more honest context you give, the better your strategy. Nothing here leaves this page.
+        The more honest context you give, the clearer your negotiation strategy will be. Nothing here leaves this page.
       </p>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -263,12 +263,12 @@ function SetupStage({ onNext }) {
         </div>
 
         <div>
-          <Label>Your absolute maximum budget (USD)</Label>
+          <Label>Your absolute maximum budget (£)</Label>
           <input type="number" value={form.maxBudget}
             onChange={e => set("maxBudget", e.target.value)}
             placeholder="e.g. 2500" />
           <p style={{ fontSize: 11, color: "var(--ink4)", marginTop: 5 }}>
-            This stays private. It shapes your strategy - we'll never suggest opening at this number.
+            This stays private. It shapes your strategy — we will never suggest opening at this number.
           </p>
         </div>
 
@@ -282,16 +282,16 @@ function SetupStage({ onNext }) {
             } />
           {form.userType === "business" &&
             <p style={{ fontSize: 11, color: "var(--red)", marginTop: 5 }}>
-              ⚠ Don't mention your company name or urgency to the seller. This is for your eyes only.
+              ⚠ Do not mention your company name or urgency to the seller. This is for your eyes only.
             </p>}
         </div>
 
         <div>
           <Label>Timeline</Label>
           <select value={form.timeline} onChange={e => set("timeline", e.target.value)}>
-            <option value="flexible">Flexible - no pressure</option>
+            <option value="flexible">Flexible — no pressure</option>
             <option value="weeks">A few weeks</option>
-            <option value="urgent">Urgent - I need this soon</option>
+            <option value="urgent">Urgent — I need this soon</option>
           </select>
           {form.timeline === "urgent" &&
             <p style={{ fontSize: 11, color: "var(--red)", marginTop: 5 }}>
@@ -302,14 +302,14 @@ function SetupStage({ onNext }) {
 
       <div style={{ marginTop: 22 }}>
         <PrimaryBtn onClick={() => onNext(form)} disabled={!valid} full>
-          Continue to Valuation →
+          See your position →
         </PrimaryBtn>
       </div>
     </div>
   );
 }
 
-// ── STAGE 2: VALUATION ────────────────────────────────────────────────────────
+// ── STAGE 2: YOUR POSITION ────────────────────────────────────────────────────
 function ValuationStage({ setup, onNext }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -319,10 +319,10 @@ function ValuationStage({ setup, onNext }) {
     setLoading(true);
     const res = await callAI(`Analyse the domain "${setup.domain}" for negotiation purposes.
 Buyer type: ${setup.userType}
-Max budget: $${setup.maxBudget}
+Max budget: £${setup.maxBudget}
 Reason: ${setup.reason}
 
-Give an honest valuation assessment. You do not have live sales data.
+Give an honest assessment to help the buyer understand their position. You do not have live sales data.
 Base your estimate on:
 - Extension strength (.com, .ai, .io etc)
 - Word count and length
@@ -334,10 +334,10 @@ Flag if the domain seems overpriced or underpriced relative to stated budget.
 
 JSON: {
   "extension_quality": "strong|moderate|weak",
-  "estimated_range": "$X - $Y",
+  "estimated_range": "£X - £Y",
   "confidence": "low|medium|high",
   "confidence_reason": "one sentence on why",
-  "opening_anchor": "$Z",
+  "opening_anchor": "£Z",
   "opening_anchor_logic": "why this opening makes sense",
   "budget_verdict": "reasonable|tight|generous|unknown",
   "comparable_patterns": "2 sentences on what similar domains have sold for - be honest if you're uncertain",
@@ -351,14 +351,14 @@ JSON: {
   return (
     <div className="appear">
       <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: 22,
-        color: "var(--amber2)", marginBottom: 6 }}>Valuation Assessment</h2>
+        color: "var(--amber2)", marginBottom: 6 }}>Your position</h2>
       <p style={{ fontSize: 13, color: "var(--ink3)", marginBottom: 18, lineHeight: 1.6 }}>
-        Before making any offer, you need a realistic sense of what this domain is worth - and what you should open with. Valuations are AI-generated based on extension strength, comparable sales patterns, and niche demand. The same inputs a human broker would use, without the £120 fee. Always verify on NameBio before committing real money.
+        Before making your first move, pressure-test the likely value and see where you stand. This assessment uses extension strength, comparable sales patterns, and niche demand signals. Verify on NameBio before committing real money.
       </p>
 
       {!ran && (
         <PrimaryBtn onClick={run} loading={loading} full>
-          {loading ? "Analysing..." : "Generate Valuation"}
+          {loading ? "Analysing..." : "See your position"}
         </PrimaryBtn>
       )}
 
@@ -368,9 +368,9 @@ JSON: {
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
             {[
-              { l: "Estimated Range", v: data.estimated_range, note: "AI-generated estimate" },
-              { l: "Suggested Opening", v: data.opening_anchor, note: "Start here" },
-              { l: "Your Budget", v: `$${setup.maxBudget}`, note: data.budget_verdict },
+              { l: "Estimated Range", v: data.estimated_range, note: "Sense-check only" },
+              { l: "Opening Anchor", v: data.opening_anchor, note: "Start here" },
+              { l: "Your Budget", v: `£${setup.maxBudget}`, note: data.budget_verdict },
             ].map(item => (
               <Card key={item.l}>
                 <div style={{ fontSize: 10, fontFamily: "'IBM Plex Mono', monospace",
@@ -419,7 +419,7 @@ JSON: {
             </p>
             <p style={{ fontSize: 11, color: "var(--amber)", marginTop: 10,
               borderTop: `1px solid ${"var(--border)"}`, paddingTop: 10 }}>
-              Confidence: {data.confidence} - {data.confidence_reason}
+              Confidence: {data.confidence} — {data.confidence_reason}
             </p>
           </Card>
 
@@ -428,7 +428,7 @@ JSON: {
               Re-run
             </PrimaryBtn>
             <PrimaryBtn onClick={() => onNext(data)} full>
-              Generate Opening Offer →
+              Prepare your first move →
             </PrimaryBtn>
           </div>
         </div>
@@ -437,25 +437,25 @@ JSON: {
   );
 }
 
-// ── STAGE 3: OPENING OFFER ────────────────────────────────────────────────────
+// ── STAGE 3: FIRST MOVE ───────────────────────────────────────────────────────
 function OpenStage({ setup, valuation, onNext }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const run = useCallback(async () => {
     setLoading(true);
-    const res = await callAI(`Write opening contact scripts for acquiring "${setup.domain}".
+    const res = await callAI(`Write opening contact messages for acquiring "${setup.domain}".
 
 Buyer type: ${setup.userType === "investor" ? "Domain investor (never reveal this - present as entrepreneur)" : "Business/startup (never reveal company name or urgency)"}
 Suggested opening offer: ${valuation.opening_anchor}
 Timeline pressure: ${setup.timeline}
 
-Write three contact scripts:
+Write three contact messages:
 1. Email approach (subject + body, under 90 words)
 2. Contact form / brief message (under 50 words)
 3. If the domain has a "make offer" button on a parking page (direct bid framing, under 40 words)
 
-Rules for all scripts:
+Rules for all messages:
 - Never mention urgency
 - Never reveal maximum budget
 - Present as a small entrepreneur/individual buyer, not a company
@@ -479,20 +479,20 @@ JSON: {
   return (
     <div className="appear">
       <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: 22,
-        color: "var(--ink)", marginBottom: 6 }}>Opening Offer Scripts</h2>
+        color: "var(--ink)", marginBottom: 6 }}>Make your first move</h2>
       <p style={{ fontSize: 13, color: "var(--ink3)", marginBottom: 18, lineHeight: 1.6 }}>
-        Your first message sets the tone for everything. These scripts are designed to open negotiations without showing your hand. Edit them before sending.
+        Your first message sets the tone for everything. These are starting points designed to open the negotiation without exposing your position. Edit before sending.
       </p>
 
       {!data && (
         <PrimaryBtn onClick={run} loading={loading} full>
-          {loading ? "Writing scripts..." : "Generate Opening Scripts"}
+          {loading ? "Preparing your first move..." : "Draft first move"}
         </PrimaryBtn>
       )}
 
       {data && !data.error && (
         <div className="slide" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-          <Notice text="Read and edit these before sending. They are a starting point, not a finished product. Your voice should come through." type="warn" />
+          <Notice text="Read and edit these before sending. They are a starting point, not a finished message. Your voice should come through." type="warn" />
 
           <ScriptBox
             label="Email approach"
@@ -505,9 +505,9 @@ JSON: {
             note="Use when the domain has a contact form or limited character space."
           />
           <ScriptBox
-            label="Parking page offer button"
+            label="Parking page offer"
             text={data.parking_offer}
-            note="Use when the domain is parked with a 'make offer' interface."
+            note="Use when the domain is parked with a make offer interface."
           />
 
           <Card>
@@ -534,7 +534,7 @@ JSON: {
           <div style={{ display: "flex", gap: 10 }}>
             <PrimaryBtn onClick={() => setData(null)} style={{ flex: "none" }}>Re-run</PrimaryBtn>
             <PrimaryBtn onClick={() => onNext(data)} full>
-              I've sent my offer - handle responses →
+              Seller replied — handle the response →
             </PrimaryBtn>
           </div>
         </div>
@@ -543,7 +543,7 @@ JSON: {
   );
 }
 
-// ── STAGE 4: COUNTER OFFER ────────────────────────────────────────────────────
+// ── STAGE 4: SELLER REPLY ─────────────────────────────────────────────────────
 function CounterStage({ setup, valuation, onNext, unlocked }) {
   const [response, setResponse] = useState("");
   const [counterAmount, setCounterAmount] = useState("");
@@ -552,10 +552,10 @@ function CounterStage({ setup, valuation, onNext, unlocked }) {
 
   const run = useCallback(async () => {
     setLoading(true);
-    const res = await callAI(`Domain negotiation counter-offer strategy for "${setup.domain}".
+    const res = await callAI(`Domain negotiation response guidance for "${setup.domain}".
 
 Buyer type: ${setup.userType}
-Max budget: $${setup.maxBudget}
+Max budget: £${setup.maxBudget}
 Opening anchor: ${valuation.opening_anchor}
 Estimated range: ${valuation.estimated_range}
 Seller's response: ${response}
@@ -564,13 +564,13 @@ Seller's counter amount (if given): ${counterAmount || "not specified"}
 Analyse the seller's response and give strategic advice.
 Is this a serious seller? What does their response signal?
 What should the buyer counter with and how?
-What scripts should they use?
+What messages should they use?
 
 JSON: {
   "seller_signal": "what their response reveals about motivation/flexibility",
-  "recommended_counter": "$X",
+  "recommended_counter": "£X",
   "recommended_counter_logic": "why",
-  "counter_script": "the actual counter-offer message to send",
+  "counter_script": "the actual response message to send",
   "psychology_note": "one key insight about this negotiation dynamic",
   "red_flags": ["any red flags from their response"],
   "walk_away_signal": "what would indicate buyer should walk away at this point"
@@ -582,17 +582,17 @@ JSON: {
     return (
       <div className="appear">
         <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: 22,
-          color: "var(--amber2)", marginBottom: 6 }}>Counter-Offer Strategy</h2>
+          color: "var(--amber2)", marginBottom: 6 }}>Respond with confidence</h2>
         <p style={{ fontSize: 13, color: "var(--ink3)", marginBottom: 20, lineHeight: 1.6 }}>
-          The seller has responded. Now comes the real negotiation. This stage analyses their response and gives you precise counter-offer scripts and psychology coaching.
+          The seller has replied. This is where most buyers make costly mistakes — folding too early, bidding against themselves, or misreading what the seller actually signalled. Unlock live negotiation support to handle this correctly.
         </p>
         <Card amber style={{ textAlign: "center", padding: "28px 24px" }}>
           <div style={{ fontFamily: "'Cinzel', serif", fontSize: 18,
             color: "var(--ink)", marginBottom: 10 }}>
-            Unlock the full negotiation workflow
+            Unlock live negotiation support
           </div>
           <p style={{ fontSize: 13, color: "var(--ink3)", marginBottom: 18, lineHeight: 1.6, maxWidth: 360, margin: "0 auto 18px" }}>
-            Counter-offer scripts, walk-away analysis, and close/escrow guidance for this negotiation - one-off, no subscription.
+            Get seller-signal analysis, counter-offer guidance, and close-or-walk-away support for this negotiation. One-off payment, no subscription.
           </p>
           <div style={{ display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" }}>
             <button
@@ -603,25 +603,25 @@ JSON: {
                 padding: "12px 28px", fontSize: 16, fontFamily: "'Cinzel', serif",
                 cursor: "pointer", fontWeight: 600,
               }}>
-              £9 - Unlock this negotiation
+              £15 — Unlock live support
             </button>
           </div>
           <p style={{ fontSize: 11, color: "var(--ink4)", marginTop: 14 }}>
-            One payment covers counter-offer handling + close/walk-away guidance for {setup.domain}
+            One payment covers seller-response handling and final decision support for {setup.domain}
           </p>
         </Card>
 
         <div style={{ marginTop: 20 }}>
           <h3 style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 12,
             letterSpacing: "1.5px", textTransform: "uppercase",
-            color: "var(--ink3)", marginBottom: 14 }}>What's included after unlock:</h3>
+            color: "var(--ink3)", marginBottom: 14 }}>What unlocks after payment:</h3>
           {[
-            "Analysis of what the seller's response actually signals",
-            "Precise counter-offer amount with reasoning",
-            "Ready-to-send counter-offer script",
-            "Psychology coaching for this specific negotiation",
-            "Red flag detection - when to be wary",
-            "Walk-away signals - when to stop and move on",
+            "Seller signal analysis — what their response actually reveals",
+            "Recommended counter-offer amount with clear reasoning",
+            "Response message ready to edit and send",
+            "Negotiation psychology guidance for this specific situation",
+            "Red flag detection — when to be cautious",
+            "Walk-away signals — when to stop and move on",
           ].map((item, i) => (
             <div key={i} style={{ display: "flex", gap: 10, marginBottom: 8, alignItems: "flex-start" }}>
               <span style={{ color: "var(--teal)", fontSize: 13, flexShrink: 0 }}>→</span>
@@ -636,7 +636,7 @@ JSON: {
   return (
     <div className="appear">
       <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: 22,
-        color: "var(--amber2)", marginBottom: 6 }}>Counter-Offer Strategy</h2>
+        color: "var(--amber2)", marginBottom: 6 }}>Respond with confidence</h2>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 18 }}>
         <div>
@@ -645,15 +645,15 @@ JSON: {
             rows={4} placeholder="Paste or summarise their response here..." />
         </div>
         <div>
-          <Label>Counter amount they named (if any)</Label>
+          <Label>Amount they named (if any)</Label>
           <input value={counterAmount} onChange={e => setCounterAmount(e.target.value)}
-            placeholder="e.g. $4,500 or 'not interested in selling below $10k'" />
+            placeholder="e.g. £4,500 or 'not interested in selling below £10k'" />
         </div>
       </div>
 
       {!data && (
         <PrimaryBtn onClick={run} loading={loading} disabled={!response} full>
-          {loading ? "Analysing..." : "Analyse & Generate Counter"}
+          {loading ? "Analysing..." : "Analyse seller reply"}
         </PrimaryBtn>
       )}
 
@@ -684,7 +684,7 @@ JSON: {
             <p style={{ fontSize: 12, color: "var(--ink3)", lineHeight: 1.6 }}>{data.recommended_counter_logic}</p>
           </Card>
 
-          <ScriptBox label="Counter-offer message" text={data.counter_script} />
+          <ScriptBox label="Response message" text={data.counter_script} />
 
           {data.red_flags?.length > 0 && (
             <Notice text={`Red flags: ${data.red_flags.join(" · ")}`} type="error" />
@@ -700,7 +700,7 @@ JSON: {
           <div style={{ display: "flex", gap: 10 }}>
             <PrimaryBtn onClick={() => setData(null)} style={{ flex: "none" }}>Re-run</PrimaryBtn>
             <PrimaryBtn onClick={() => onNext(data)} full>
-              Deal reached / walk away →
+              Make your final decision →
             </PrimaryBtn>
           </div>
         </div>
@@ -709,7 +709,7 @@ JSON: {
   );
 }
 
-// ── STAGE 5: CLOSE / WALK ─────────────────────────────────────────────────────
+// ── STAGE 5: FINAL DECISION ───────────────────────────────────────────────────
 function CloseStage({ setup, unlocked }) {
   const [outcome, setOutcome] = useState(null);
   const [agreedPrice, setAgreedPrice] = useState("");
@@ -721,7 +721,7 @@ function CloseStage({ setup, unlocked }) {
     const res = await callAI(`Domain deal closing guidance for "${setup.domain}".
 
 Outcome: ${outcome}
-${outcome === "deal" ? `Agreed price: $${agreedPrice}` : ""}
+${outcome === "deal" ? `Agreed price: £${agreedPrice}` : ""}
 Buyer type: ${setup.userType}
 
 ${outcome === "deal"
@@ -742,9 +742,9 @@ JSON: {
     return (
       <div className="appear" style={{ textAlign: "center", padding: "40px 20px" }}>
         <div style={{ fontFamily: "'Cinzel', serif", fontSize: 20,
-          color: "var(--ink)", marginBottom: 10 }}>Close & Transfer Guidance</div>
+          color: "var(--ink)", marginBottom: 10 }}>Final Decision Support</div>
         <p style={{ fontSize: 13, color: "var(--ink3)", lineHeight: 1.6 }}>
-          Unlock the full workflow for £9 to access closing and walk-away guidance.
+          Unlock live negotiation support for £15 to access closing guidance and walk-away support.
         </p>
         <div style={{ marginTop: 20 }}>
           <button
@@ -755,7 +755,7 @@ JSON: {
               padding: "12px 28px", fontSize: 16, fontFamily: "'Cinzel', serif",
               cursor: "pointer", fontWeight: 600,
             }}>
-            £9 - Unlock this negotiation
+            £15 — Unlock live support
           </button>
         </div>
       </div>
@@ -765,9 +765,9 @@ JSON: {
   return (
     <div className="appear">
       <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: 22,
-        color: "var(--amber2)", marginBottom: 6 }}>Close or Walk Away</h2>
+        color: "var(--amber2)", marginBottom: 6 }}>Decide whether to continue or walk away</h2>
       <p style={{ fontSize: 13, color: "var(--ink3)", marginBottom: 20, lineHeight: 1.6 }}>
-        You've reached a decision point. Tell me what happened.
+        You have reached a decision point. Tell me what happened.
       </p>
 
       <div style={{ display: "flex", gap: 10, marginBottom: 18 }}>
@@ -853,7 +853,6 @@ export default function App() {
   const [valuation, setValuation] = useState(null);
   const [unlocked, setUnlocked] = useState(false);
 
-  // Check for order_id in URL on load - verifies payment token
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const orderId = params.get("order");
@@ -864,13 +863,11 @@ export default function App() {
           if (d.valid) {
             setUnlocked(true);
             sessionStorage.setItem("unlocked", "true");
-            // Remove order param from URL cleanly
             window.history.replaceState({}, "", window.location.pathname);
           }
         })
         .catch(() => {});
     }
-    // Also restore from sessionStorage if already unlocked this session
     if (sessionStorage.getItem("unlocked") === "true") {
       setUnlocked(true);
     }
@@ -894,7 +891,7 @@ export default function App() {
           <span style={{ fontFamily: "'Cinzel', serif", fontSize: 16,
             background: "linear-gradient(135deg, var(--amber2), var(--gold))",
             WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-            letterSpacing: "1px" }}>Own That Domain</span>
+            letterSpacing: "1px" }}>OwnThatDomain</span>
           <span style={{ fontSize: 9, fontFamily: "'IBM Plex Mono', monospace",
             color: "var(--ink4)", letterSpacing: "1.5px", borderLeft: "1px solid var(--border2)",
             paddingLeft: 12 }}>
@@ -936,9 +933,7 @@ export default function App() {
         display: "flex", justifyContent: "space-between", alignItems: "center",
         background: "rgba(6,12,22,0.6)", flexWrap: "wrap", gap: 10 }}>
         <p style={{ fontSize: 11, color: "var(--ink4)", maxWidth: 480, lineHeight: 1.7 }}>
-          Valuations are AI-generated based on extension strength, comparable sales patterns, and niche demand. The same inputs a human broker would use, without the £120 fee.
-          Verify comparable sales on NameBio before making purchase decisions.
-          Nothing in this tool constitutes financial or legal advice.
+          Position assessments are based on extension strength, comparable sales patterns, and niche demand signals. Verify comparable sales on NameBio before committing real money. Nothing in this tool constitutes financial or legal advice.
         </p>
         <div style={{ display: "flex", gap: 16 }}>
           <a href="/terms" style={{ fontSize: 11, color: "var(--ink4)", textDecoration: "none" }}>Terms of Service</a>
