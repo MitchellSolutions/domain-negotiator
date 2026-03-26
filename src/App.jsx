@@ -159,7 +159,7 @@ function LockedBadge() {
     <div style={{ display: "inline-flex", alignItems: "center", gap: 6,
       background: "linear-gradient(135deg, var(--amber), var(--amber2))", color: "#0d1825", borderRadius: 4,
       padding: "3px 10px", fontSize: 11, fontWeight: 500, letterSpacing: "0.5px" }}>
-      ⚡ Unlock for £15
+      ⚡ Unlock for £29
     </div>
   );
 }
@@ -238,8 +238,8 @@ function LandingPage({ onStart }) {
           maxWidth: 600,
           margin: "0 auto 32px"
         }}>
-          A strategic domain acquisition system that helps you approach the owner strategically, 
-          negotiate from a stronger position, avoid common pricing mistakes, 
+          A strategic domain acquisition framework that helps you approach owners correctly, 
+          negotiate from a stronger position, avoid pricing mistakes, 
           and improve your chances of securing the right name.
         </p>
         
@@ -474,8 +474,8 @@ function LandingPage({ onStart }) {
             understand your position, see the likely range, and draft your first move.
           </p>
           <p style={{ fontSize: 15, color: "var(--ink)", marginBottom: 20, lineHeight: 1.7 }}>
-            <strong style={{ color: "var(--amber2)" }}>Pay when the seller replies.</strong> Unlock live negotiation support 
-            for £15 when you need help handling the response and closing the deal.
+            <strong style={{ color: "var(--amber2)" }}>Unlock live negotiation support when the seller replies.</strong> Get structured help 
+            assessing the response, planning your next move, and closing the deal with more control.
           </p>
           <p style={{ fontSize: 13, color: "var(--ink4)" }}>
             No subscription. More control than a broker. More structure than doing it alone.
@@ -943,7 +943,7 @@ JSON: {
                 padding: "12px 28px", fontSize: 16, fontFamily: "'Cinzel', serif",
                 cursor: "pointer", fontWeight: 600,
               }}>
-              £15 — Unlock live support
+              £29 — Unlock live support
             </button>
           </div>
           <p style={{ fontSize: 11, color: "var(--ink4)", marginTop: 14 }}>
@@ -1084,7 +1084,7 @@ JSON: {
         <div style={{ fontFamily: "'Cinzel', serif", fontSize: 20,
           color: "var(--ink)", marginBottom: 10 }}>Final Decision Support</div>
         <p style={{ fontSize: 13, color: "var(--ink3)", lineHeight: 1.6 }}>
-          Unlock live negotiation support for £15 to access closing guidance and walk-away support.
+          Unlock live negotiation support for £29 to access closing guidance and walk-away support.
         </p>
         <div style={{ marginTop: 20 }}>
           <button
@@ -1095,7 +1095,7 @@ JSON: {
               padding: "12px 28px", fontSize: 16, fontFamily: "'Cinzel', serif",
               cursor: "pointer", fontWeight: 600,
             }}>
-            £15 — Unlock live support
+            £29 — Unlock live support
           </button>
         </div>
       </div>
