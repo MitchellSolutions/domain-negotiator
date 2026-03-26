@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 
 // ── STYLES ────────────────────────────────────────────────────────────────────
 const CSS = `
@@ -34,8 +34,14 @@ const CSS = `
   @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes slideIn { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: translateX(0); } }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   .appear { animation: fadeUp 0.3s ease both; }
   .slide { animation: slideIn 0.25s ease both; }
+  .fade-in { animation: fadeIn 0.5s ease both; }
+  .fade-in-delay-1 { animation: fadeIn 0.5s ease 0.1s both; }
+  .fade-in-delay-2 { animation: fadeIn 0.5s ease 0.2s both; }
+  .fade-in-delay-3 { animation: fadeIn 0.5s ease 0.3s both; }
+  .fade-in-delay-4 { animation: fadeIn 0.5s ease 0.4s both; }
   input, textarea, select {
     background: var(--paper2); border: 1.5px solid var(--border2);
     border-radius: 4px; padding: 10px 13px;
@@ -50,6 +56,7 @@ const CSS = `
   select option { background: var(--paper2); color: var(--ink); }
   button { cursor: pointer; font-family: 'IBM Plex Sans', sans-serif; transition: all 0.15s; }
   button:hover { opacity: 0.85; }
+  .landing-section { scroll-margin-top: 60px; }
 `;
 
 // ── AI CALL ───────────────────────────────────────────────────────────────────
@@ -186,6 +193,339 @@ function ScriptBox({ label, text, note }) {
       </div>
       {note && <p style={{ fontSize: 11, color: "var(--ink3)", marginTop: 6,
         lineHeight: 1.5, fontStyle: "italic" }}>{note}</p>}
+    </div>
+  );
+}
+
+// ── LANDING PAGE ──────────────────────────────────────────────────────────────
+function LandingPage({ onStart }) {
+  return (
+    <div style={{ minHeight: "100vh", background: "var(--paper)", position: "relative", zIndex: 1 }}>
+      {/* HERO */}
+      <div style={{ 
+        padding: "80px 24px 60px", 
+        maxWidth: 800, 
+        margin: "0 auto", 
+        textAlign: "center" 
+      }}>
+        <div className="fade-in" style={{ marginBottom: 16 }}>
+          <span style={{ 
+            fontFamily: "'Cinzel', serif", 
+            fontSize: 28,
+            background: "linear-gradient(135deg, var(--amber2), var(--gold))",
+            WebkitBackgroundClip: "text", 
+            WebkitTextFillColor: "transparent",
+            letterSpacing: "2px" 
+          }}>OwnThatDomain</span>
+        </div>
+        
+        <h1 className="fade-in-delay-1" style={{ 
+          fontFamily: "'Cinzel', serif", 
+          fontSize: "clamp(24px, 5vw, 36px)", 
+          color: "var(--ink)",
+          lineHeight: 1.3,
+          marginBottom: 20,
+          maxWidth: 700,
+          margin: "0 auto 20px"
+        }}>
+          Acquire the domain you want without overpaying, guessing, or weakening your position
+        </h1>
+        
+        <p className="fade-in-delay-2" style={{ 
+          fontSize: 16, 
+          color: "var(--ink3)", 
+          lineHeight: 1.7,
+          maxWidth: 600,
+          margin: "0 auto 32px"
+        }}>
+          A strategic domain acquisition system that helps you approach the owner strategically, 
+          negotiate from a stronger position, avoid common pricing mistakes, 
+          and improve your chances of securing the right name.
+        </p>
+        
+        <div className="fade-in-delay-3">
+          <button onClick={onStart} style={{
+            background: "linear-gradient(135deg, var(--teal2), var(--teal))",
+            color: "#fff",
+            border: "none",
+            borderRadius: 5,
+            padding: "14px 32px",
+            fontSize: 15,
+            fontWeight: 500,
+            cursor: "pointer",
+            boxShadow: "0 0 24px rgba(42,184,176,0.3)",
+          }}>
+            Build your acquisition strategy →
+          </button>
+        </div>
+      </div>
+
+      {/* 5 OUTCOMES */}
+      <div style={{ 
+        padding: "40px 24px 60px", 
+        maxWidth: 700, 
+        margin: "0 auto" 
+      }}>
+        <h2 className="fade-in" style={{ 
+          fontFamily: "'IBM Plex Mono', monospace", 
+          fontSize: 11, 
+          letterSpacing: "2px", 
+          textTransform: "uppercase",
+          color: "var(--teal)",
+          marginBottom: 24,
+          textAlign: "center"
+        }}>What you get</h2>
+        
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          {[
+            { title: "Negotiate with more leverage", desc: "Know how to approach the owner without showing desperation or weakening your position." },
+            { title: "Avoid overpaying", desc: "Use a smarter acquisition process that reduces emotional and impulsive mistakes." },
+            { title: "Increase your odds of success", desc: "Follow a structured approach that improves outreach, timing, and follow-up." },
+            { title: "Protect your budget", desc: "Avoid common traps that push buyers into inflated pricing." },
+            { title: "Strengthen your brand position", desc: "Secure a domain that improves trust, memorability, and long-term brand value." },
+          ].map((item, i) => (
+            <div key={i} style={{ 
+              display: "flex", 
+              gap: 14, 
+              alignItems: "flex-start",
+              background: "var(--paper2)",
+              border: "1px solid var(--border)",
+              borderRadius: 6,
+              padding: "16px 18px"
+            }}>
+              <span style={{ 
+                color: "var(--amber)", 
+                fontSize: 14, 
+                flexShrink: 0,
+                marginTop: 2
+              }}>→</span>
+              <div>
+                <div style={{ 
+                  fontSize: 14, 
+                  fontWeight: 500, 
+                  color: "var(--ink)", 
+                  marginBottom: 4 
+                }}>{item.title}</div>
+                <div style={{ 
+                  fontSize: 13, 
+                  color: "var(--ink3)", 
+                  lineHeight: 1.6 
+                }}>{item.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* WHO THIS IS FOR */}
+      <div style={{ 
+        padding: "40px 24px 60px", 
+        maxWidth: 700, 
+        margin: "0 auto",
+        borderTop: "1px solid var(--border)"
+      }}>
+        <h2 style={{ 
+          fontFamily: "'IBM Plex Mono', monospace", 
+          fontSize: 11, 
+          letterSpacing: "2px", 
+          textTransform: "uppercase",
+          color: "var(--teal)",
+          marginBottom: 24,
+          textAlign: "center"
+        }}>Built for</h2>
+        
+        <div style={{ 
+          display: "grid", 
+          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", 
+          gap: 12 
+        }}>
+          {[
+            "Founders acquiring a serious brand name",
+            "Entrepreneurs replacing a weak domain",
+            "Businesses buying a category-defining asset",
+            "Buyers who want to avoid overpaying in private domain deals",
+          ].map((item, i) => (
+            <div key={i} style={{ 
+              display: "flex", 
+              gap: 10, 
+              alignItems: "center",
+              padding: "12px 16px",
+              background: "var(--paper3)",
+              borderRadius: 5
+            }}>
+              <span style={{ color: "var(--green)", fontSize: 12 }}>✓</span>
+              <span style={{ fontSize: 13, color: "var(--ink2)" }}>{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* WHAT IT HELPS YOU AVOID */}
+      <div style={{ 
+        padding: "40px 24px 60px", 
+        maxWidth: 700, 
+        margin: "0 auto",
+        borderTop: "1px solid var(--border)"
+      }}>
+        <h2 style={{ 
+          fontFamily: "'IBM Plex Mono', monospace", 
+          fontSize: 11, 
+          letterSpacing: "2px", 
+          textTransform: "uppercase",
+          color: "var(--red)",
+          marginBottom: 24,
+          textAlign: "center"
+        }}>What it helps you avoid</h2>
+        
+        <div style={{ 
+          display: "grid", 
+          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", 
+          gap: 12 
+        }}>
+          {[
+            "Revealing too much interest too early",
+            "Accepting inflated asking prices too fast",
+            "Approaching the deal without a plan",
+            "Mishandling owner communication",
+            "Losing a strong domain through weak negotiation",
+          ].map((item, i) => (
+            <div key={i} style={{ 
+              display: "flex", 
+              gap: 10, 
+              alignItems: "center",
+              padding: "12px 16px",
+              background: "rgba(192,68,74,0.08)",
+              border: "1px solid rgba(192,68,74,0.2)",
+              borderRadius: 5
+            }}>
+              <span style={{ color: "var(--red)", fontSize: 12 }}>✗</span>
+              <span style={{ fontSize: 13, color: "var(--ink2)" }}>{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* BRAND UPSIDE */}
+      <div style={{ 
+        padding: "40px 24px 60px", 
+        maxWidth: 700, 
+        margin: "0 auto",
+        borderTop: "1px solid var(--border)"
+      }}>
+        <h2 style={{ 
+          fontFamily: "'Cinzel', serif", 
+          fontSize: 20, 
+          color: "var(--ink)",
+          marginBottom: 10,
+          textAlign: "center"
+        }}>The right domain is not just a URL</h2>
+        <p style={{ 
+          fontSize: 14, 
+          color: "var(--ink3)", 
+          textAlign: "center",
+          marginBottom: 24
+        }}>It can improve:</p>
+        
+        <div style={{ 
+          display: "flex", 
+          flexWrap: "wrap", 
+          justifyContent: "center",
+          gap: 10 
+        }}>
+          {["Trust", "Recall", "Direct traffic quality", "Conversion confidence", "Perceived authority"].map((item, i) => (
+            <span key={i} style={{ 
+              padding: "8px 16px",
+              background: "var(--paper2)",
+              border: "1px solid var(--amber)",
+              borderRadius: 20,
+              fontSize: 13,
+              color: "var(--amber2)"
+            }}>{item}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* PRICING */}
+      <div style={{ 
+        padding: "40px 24px 60px", 
+        maxWidth: 700, 
+        margin: "0 auto",
+        borderTop: "1px solid var(--border)"
+      }}>
+        <h2 style={{ 
+          fontFamily: "'IBM Plex Mono', monospace", 
+          fontSize: 11, 
+          letterSpacing: "2px", 
+          textTransform: "uppercase",
+          color: "var(--teal)",
+          marginBottom: 24,
+          textAlign: "center"
+        }}>How it works</h2>
+        
+        <div style={{ 
+          background: "var(--paper2)", 
+          border: "1px solid var(--border2)",
+          borderRadius: 8,
+          padding: "24px",
+          textAlign: "center"
+        }}>
+          <p style={{ fontSize: 15, color: "var(--ink)", marginBottom: 16, lineHeight: 1.7 }}>
+            <strong style={{ color: "var(--amber2)" }}>Start free.</strong> The first three stages are yours at no cost: 
+            understand your position, see the likely range, and draft your first move.
+          </p>
+          <p style={{ fontSize: 15, color: "var(--ink)", marginBottom: 20, lineHeight: 1.7 }}>
+            <strong style={{ color: "var(--amber2)" }}>Pay when the seller replies.</strong> Unlock live negotiation support 
+            for £15 when you need help handling the response and closing the deal.
+          </p>
+          <p style={{ fontSize: 13, color: "var(--ink4)" }}>
+            No subscription. More control than a broker. More structure than doing it alone.
+          </p>
+        </div>
+      </div>
+
+      {/* FINAL CTA */}
+      <div style={{ 
+        padding: "40px 24px 80px", 
+        maxWidth: 700, 
+        margin: "0 auto",
+        textAlign: "center"
+      }}>
+        <button onClick={onStart} style={{
+          background: "linear-gradient(135deg, var(--amber), var(--amber2))",
+          color: "#0d1825",
+          border: "none",
+          borderRadius: 5,
+          padding: "16px 40px",
+          fontSize: 16,
+          fontFamily: "'Cinzel', serif",
+          fontWeight: 600,
+          cursor: "pointer",
+          boxShadow: "0 0 24px rgba(200,146,42,0.3)",
+        }}>
+          Start with a stronger negotiation position
+        </button>
+        <p style={{ 
+          fontSize: 12, 
+          color: "var(--ink4)", 
+          marginTop: 14 
+        }}>
+          Free to start. No account required. Everything stays in your browser.
+        </p>
+      </div>
+
+      {/* FOOTER */}
+      <div style={{ 
+        borderTop: "1px solid var(--border)", 
+        padding: "16px 24px",
+        display: "flex", 
+        justifyContent: "center", 
+        alignItems: "center",
+        gap: 24,
+        background: "rgba(6,12,22,0.6)"
+      }}>
+        <a href="/terms" style={{ fontSize: 11, color: "var(--ink4)", textDecoration: "none" }}>Terms of Service</a>
+        <a href="/refund-policy" style={{ fontSize: 11, color: "var(--ink4)", textDecoration: "none" }}>Refund Policy</a>
+      </div>
     </div>
   );
 }
@@ -848,10 +1188,12 @@ JSON: {
 
 // ── APP ───────────────────────────────────────────────────────────────────────
 export default function App() {
+  const [showLanding, setShowLanding] = useState(true);
   const [stage, setStage] = useState("setup");
   const [setup, setSetup] = useState(null);
   const [valuation, setValuation] = useState(null);
   const [unlocked, setUnlocked] = useState(false);
+  const appRef = useRef(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -878,8 +1220,24 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleStart = () => {
+    setShowLanding(false);
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 50);
+  };
+
+  if (showLanding) {
+    return (
+      <>
+        <style>{CSS}</style>
+        <LandingPage onStart={handleStart} />
+      </>
+    );
+  }
+
   return (
-    <div style={{ minHeight: "100vh", background: "var(--paper)", position: "relative", zIndex: 1 }}>
+    <div ref={appRef} style={{ minHeight: "100vh", background: "var(--paper)", position: "relative", zIndex: 1 }}>
       <style>{CSS}</style>
 
       {/* HEADER */}
@@ -888,10 +1246,12 @@ export default function App() {
         display: "flex", justifyContent: "space-between", alignItems: "center",
         position: "sticky", top: 0, zIndex: 100 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <span style={{ fontFamily: "'Cinzel', serif", fontSize: 16,
-            background: "linear-gradient(135deg, var(--amber2), var(--gold))",
-            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-            letterSpacing: "1px" }}>OwnThatDomain</span>
+          <span 
+            onClick={() => setShowLanding(true)}
+            style={{ fontFamily: "'Cinzel', serif", fontSize: 16,
+              background: "linear-gradient(135deg, var(--amber2), var(--gold))",
+              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+              letterSpacing: "1px", cursor: "pointer" }}>OwnThatDomain</span>
           <span style={{ fontSize: 9, fontFamily: "'IBM Plex Mono', monospace",
             color: "var(--ink4)", letterSpacing: "1.5px", borderLeft: "1px solid var(--border2)",
             paddingLeft: 12 }}>
