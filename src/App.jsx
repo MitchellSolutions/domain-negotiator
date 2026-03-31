@@ -64,23 +64,15 @@ async function callAI(prompt, system) {
   const res = await fetch("/.netlify/functions/claude", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 1200,
-      system: system || `You are an experienced domain name negotiation advisor. 
-You give precise, strategic advice grounded in real domain market knowledge.
-You do not invent sale data but you understand market patterns well.
-You are honest about uncertainty. You never oversell outcomes.
-Respond in valid compact JSON only. No markdown, no preamble.`,
-      messages: [{ role: "user", content: prompt }],
-    }),
+    body: JSON.stringify({ prompt, system }),
   });
-  const d = await res.json();
-  const raw = d.content?.map(b => b.text || "").join("") || "{}";
-  try { return JSON.parse(raw.replace(/```json|```/g, "").trim()); }
-  catch { return { error: true }; }
+  try {
+    const raw = await res.json();
+    const text = raw?.content?.[0]?.text || raw?.text || JSON.stringify(raw);
+    const clean = text.replace(/```json|```/g, "").trim();
+    return JSON.parse(clean);
+  } catch { return { error: true }; }
 }
-
 // ── LEMON SQUEEZY CHECKOUT URL ────────────────────────────────────────────────
 const CHECKOUT_URL = "https://ownthatdomain.lemonsqueezy.com/checkout/buy/fe2502c5-cd2c-499d-b473-f6bb3496125d";
 
