@@ -42,12 +42,13 @@ const CSS = `
   .fade-in-delay-2 { animation: fadeIn 0.5s ease 0.2s both; }
   .fade-in-delay-3 { animation: fadeIn 0.5s ease 0.3s both; }
   .fade-in-delay-4 { animation: fadeIn 0.5s ease 0.4s both; }
-  input, textarea, select {
-    background: var(--paper2); border: 1.5px solid var(--border2);
-    border-radius: 4px; padding: 10px 13px;
-    font-family: 'IBM Plex Mono', monospace; font-size: 13px;
-    color: var(--ink); outline: none; width: 100%;
-    transition: border-color 0.2s, box-shadow 0.2s;
+ input, textarea, select {
+  background: var(--paper2); border: 1.5px solid var(--border2);
+  border-radius: 4px; padding: 10px 13px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 13px;
+  color: var(--ink); outline: none; width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  position: relative; z-index: 2;
   }
   input:focus, textarea:focus, select:focus {
     border-color: var(--teal);
