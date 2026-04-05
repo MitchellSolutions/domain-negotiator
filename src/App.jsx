@@ -75,7 +75,7 @@ async function callAI(prompt, system) {
   } catch { return { error: true }; }
 }
 // ── LEMON SQUEEZY CHECKOUT URL ────────────────────────────────────────────────
-const CHECKOUT_URL = "https://ownthatdomain.lemonsqueezy.com/checkout/buy/fe2502c5-cd2c-499d-b473-f6bb3496125d";
+const CHECKOUT_URL = "https://ownthatdomain.lemonsqueezy.com/checkout/buy/";8a02425f-624d-45b7-a4e8-665a091b3d89
 
 // ── STAGES ────────────────────────────────────────────────────────────────────
 const STAGES = [
